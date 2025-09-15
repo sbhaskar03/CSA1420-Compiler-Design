@@ -1,0 +1,13 @@
+%{
+#include <stdio.h>
+int cnt=0;
+%}
+
+%%
+"//".*            { cnt++; }
+"/*"([^*]|\n)*"*/" { cnt++; }
+.|\n              ;
+%%
+
+int yywrap(){ return 1; }
+int main(){ yylex(); printf("Comments=%d\n",cnt); }
