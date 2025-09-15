@@ -1,0 +1,20 @@
+%{
+#include <stdio.h>
+int chars=0, words=0, lines=0;
+%}
+
+%%
+.        { chars++; }
+\n       { lines++; chars++; }
+[ \t]+   { words++; }
+%%
+
+int yywrap(){ return 1; }
+
+int main() {
+    yylex();
+    printf("Characters: %d\n", chars);
+    printf("Words: %d\n", words+1);
+    printf("Lines: %d\n", lines);
+    return 0;
+}
