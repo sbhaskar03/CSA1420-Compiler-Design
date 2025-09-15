@@ -1,0 +1,16 @@
+%{
+#include <stdio.h>
+%}
+
+DIGIT   [0-9]+
+WORD    [A-Za-z]+
+
+%%
+{DIGIT}   { printf("Number: %s\n", yytext); }
+{WORD}    { printf("Word: %s\n", yytext); }
+[ \t\n]   ;
+.         ;
+%%
+
+int yywrap(){ return 1; }
+int main(){ yylex(); return 0; }
