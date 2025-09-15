@@ -1,0 +1,17 @@
+%{
+%}
+
+%%
+
+(https|ftp)(:\/\/)[a-zA-Z0-9./?=_-]+ { printf("Valid URL"); }
+.+ { printf("Invalid URL"); }
+
+%%
+
+int yywrap(){ }
+
+int main()
+{
+printf("Enter the input string:\n");
+yylex();
+}
