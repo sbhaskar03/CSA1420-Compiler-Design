@@ -1,0 +1,29 @@
+%{
+#include <stdio.h>
+FILE *vvout;
+%}
+
+%%
+
+[^>]*\>   { fprintf(vvout, "%s\n", yytext); }
+
+.|\n      ;
+
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    FILE *vwin;
+    vwin = fopen("sample.html", "r");
+    vvout = fopen("output.txt", "w");
+    yyin = vwin;
+    yylex();
+    fclose(vwin);
+    fclose(vvout);
+    return 0;
+}
