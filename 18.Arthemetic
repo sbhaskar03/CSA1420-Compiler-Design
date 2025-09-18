@@ -5,28 +5,19 @@ int a,b;
 
 %%
 
-[0-9]+[+\-*/][0-9]+  {
-    sscanf(yytext, "%d%*1[+-*/]%d", &a, &b);
-    switch(yytext[1]) {
-        case '+': printf("%d + %d = %d\n", a,b,a+b); break;
-        case '-': printf("%d - %d = %d\n", a,b,a-b); break;
-        case '*': printf("%d * %d = %d\n", a,b,a*b); break;
-        case '/': 
-            if(b==0) printf("%d / %d = Error (Division by zero)\n", a,b);
-            else printf("%d / %d = %d\n", a,b,a/b);
-            break;
+[0-9]+[+\-*/][0-9]+ {
+    sscanf(yytext,"%d%1c%d",&a,&yytext[0],&b);
+    switch(yytext[0]){
+        case '+': printf("%d+%d=%d\n",a,b,a+b); break;
+        case '-': printf("%d-%d=%d\n",a,b,a-b); break;
+        case '*': printf("%d*%d=%d\n",a,b,a*b); break;
+        case '/': b?printf("%d/%d=%d\n",a,b,a/b):printf("Error: div by 0\n"); break;
     }
 }
 
-[ \t\n]+   ;  // ignore whitespace
-.          ;  // ignore other characters
+.|\n ;   /* ignore others */
 
 %%
 
-int yywrap() { return 1; }
-
-int main() {
-    printf("Enter arithmetic expressions (like 12+5, 8*3, 9-2, 10/2):\n");
-    yylex();
-    return 0;
-}
+int yywrap(){return 1;}
+int main(){yylex();}
